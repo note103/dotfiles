@@ -20,12 +20,6 @@ set tw=0
 " 画面最後の行をできる限り表示
 set display+=lastline
 
-" 行表示
-set number
-" 右下に表示される行・列の番号を表示する
-set ruler
-set wrap
-set showcmd
 " カーソル行の背景色を変える
 set cursorline
 augroup cch
