@@ -56,7 +56,7 @@ augroup HighlightingNoisySpaces
   au!
   au BufNewFile,BufRead * call matchadd('ZenkakuSpace', '　')
   au BufNewFile,BufRead * call matchadd('TrailingZenkakuSpace', '　\{-1,}$')
-  #au BufNewFile,BufRead * call matchadd('Spaces', ' ')
+  "au BufNewFile,BufRead * call matchadd('Spaces', ' ')
   au BufNewFile,BufRead * call matchadd('TrailingSpaces', ' \{-1,}$')
   au BufNewFile,BufRead * call matchadd('TopSpaces', '^ ')
   au BufNewFile,BufRead * call matchadd('Tabs', '\t')
