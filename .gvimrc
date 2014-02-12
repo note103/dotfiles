@@ -29,14 +29,6 @@ augroup cch
 augroup END
 :hi clear CursorLine
 :hi CursorLine gui=underline
-"highlight CursorLine ctermbg=4 guibg=black
-
-" カーソル位置のカラムの背景色を変える
-"set cursorcolumn
-" ステータス行を常に表示
-set laststatus=2
-" メッセージ表示欄を2行確保
-set cmdheight=2
 
 " Setting of color scheme {{{
 if !has('win32unix')
@@ -55,16 +47,16 @@ endif
 " Highlighting noisy white spaces {{{
 highlight ZenkakuSpace guibg=#66CCCC
 highlight TrailingZenkakuSpace guibg=#0099CC
-highlight TopSpaces guibg=#FF6600
-highlight Spaces guibg=#FFCC66
-highlight TrailingSpaces guibg=#CC0033
-highlight Tabs guibg=#CCCC99
-highlight TrailingTabs guibg=#999966
+highlight TopSpaces guibg=#FFCC66
+highlight Spaces guibg=#FFCC66 "FF6600 "CC0033
+highlight TrailingSpaces guibg=#FF6600
+highlight Tabs guibg=#e5e5cc "d8e4cc "CCCC99
+highlight TrailingTabs guibg=#CCCC99 "999966
 augroup HighlightingNoisySpaces
   au!
   au BufNewFile,BufRead * call matchadd('ZenkakuSpace', '　')
   au BufNewFile,BufRead * call matchadd('TrailingZenkakuSpace', '　\{-1,}$')
-  au BufNewFile,BufRead * call matchadd('Spaces', ' ')
+  #au BufNewFile,BufRead * call matchadd('Spaces', ' ')
   au BufNewFile,BufRead * call matchadd('TrailingSpaces', ' \{-1,}$')
   au BufNewFile,BufRead * call matchadd('TopSpaces', '^ ')
   au BufNewFile,BufRead * call matchadd('Tabs', '\t')

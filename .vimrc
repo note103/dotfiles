@@ -48,12 +48,14 @@ let g:quickrun_config = {}
 let g:quickrun_config={'_': {'split': 'vertical'}}
 
 " Quickrunショートカット
-nnoremap <silent> <C-q> :QuickRun<CR>
+nnoremap <C-k> :QuickRun<C-m>
+
+"open-browser.vim設定
+NeoBundle 'tyru/open-browser.vim'
+nmap <C-l> <Plug>(openbrowser-open)
 
 " Quickrun_Markdown設定
 NeoBundle 'hallison/vim-markdown'
-NeoBundle 'tyru/open-browser.vim'
-nmap <C-w> <Plug>(openbrowser-open)
 let g:quickrun_config['markdown'] = {
       \   'outputter': 'browser'
       \ }
@@ -68,14 +70,6 @@ nnoremap <silent> <C-p> :PrevimOpen<CR>
 " hateblo.vim
 NeoBundle 'moznion/hateblo.vim'
 NeoBundle 'mattn/webapi-vim'
-
-" hatena.vim
-NeoBundle 'motemen/hatena-vim'
-let g:hatena_user='note103'
-let g:hatena_upload_on_write = 0
-let g:hatena_upload_on_write_bang = 1
-let g:hatena_no_default_keymappings = 1
-let g:hatena_entry_file = '~/Dropbox/me/docs/tools/hatena.txt'
 
 " 日時入力のショートカット
 inoremap <expr> ,df strftime('%Y/%m/%d<Tab>%H:%M:%S')
@@ -93,6 +87,12 @@ set number
 set ruler
 set wrap
 set showcmd
+
+" ステータス行の表示
+set laststatus=2
+
+" メッセージ表示欄の行確保
+set cmdheight=2
 
 " バックアップファイル作らない
 set nobackup
