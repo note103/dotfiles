@@ -2,7 +2,7 @@
 set guifont=Ricty-Regular:h15
 
 " ウィンドウ設定
-set lines=90 columns=120
+set lines=90 columns=80
 set transparency=0
 
 " スクロールバーを消す
@@ -11,7 +11,6 @@ set guioptions-=L
 " ビープ音消去
 set vb t_vb=
 
-"Displaying
 " 自動折り返し不可
 set formatoptions=q
 set textwidth=0

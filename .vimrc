@@ -9,7 +9,6 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
-NeoBundle 'VimClojure'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
@@ -18,6 +17,7 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'VimClojure'
 
 filetype plugin indent on
 filetype indent on
@@ -45,7 +45,8 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle "osyo-manga/unite-quickfix"
 NeoBundle "osyo-manga/shabadou.vim"
 let g:quickrun_config = {}
-let g:quickrun_config={'_': {'split': 'vertical'}}
+"let g:quickrun_config={'_': {'split': 'vertical'}}
+let g:quickrun_config={'_': {'split': ''}}
 
 " Quickrunショートカット
 nnoremap <C-k> :QuickRun<C-m>
@@ -129,8 +130,6 @@ inoremap "" ""<LEFT>
 inoremap '' ''<LEFT>
 inoremap <> <><LEFT>
 
-" タブをスペースに置き換え
-:set ts=4 sw=4 sts=0
 " ファイル形式によってタブのルールを個別設定
 if has("autocmd")
   filetype on
@@ -138,7 +137,7 @@ if has("autocmd")
   autocmd FileType javascript setlocal ts=4 sts=4 sw=4 et
   autocmd FileType perl setlocal ts=4 sts=4 sw=4 et
   autocmd FileType html setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType mkd setlocal ts=4 sts=4 sw=4 et
+  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
 endif
 
 " undo履歴を ~/.vimundo ディレクトリに保存して次回起動時に復元(Vim 7.3 以降)
@@ -164,6 +163,6 @@ inoremap ,ff #!/usr/bin/env perl<CR>use strict;<CR>use warnings;
 "\を打ちやすく
 inoremap <C-@> \
 
-" ●ショートカット
-inoremap <C-n> ●
+" インデントで折りたたみ
+":set foldmethod=indent
 
