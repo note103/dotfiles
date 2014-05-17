@@ -45,8 +45,10 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle "osyo-manga/unite-quickfix"
 NeoBundle "osyo-manga/shabadou.vim"
 let g:quickrun_config = {}
-"let g:quickrun_config={'_': {'split': 'vertical'}}
 let g:quickrun_config={'_': {'split': ''}}
+set splitbelow    " 横分割したら新しいウィンドウは下に
+"let g:quickrun_config={'_': {'split': 'vertical'}}
+"set splitright    " 縦分割したら新しいウィンドウは右に
 
 " Quickrunショートカット
 nnoremap <C-k> :QuickRun<C-m>
@@ -63,17 +65,11 @@ NeoBundle 'hallison/vim-markdown'
 let g:quickrun_config['markdown'] = {
       \   'outputter': 'browser'
       \ }
-set splitbelow    " 横分割したら新しいウィンドウは下に
-set splitright    " 縦分割したら新しいウィンドウは右に
 
 " PrevimOpen_Markdown設定
 NeoBundle 'kannokanno/previm'
 " PrevimOpenプレビューのショートカット
 nnoremap <silent> <C-p> :PrevimOpen<CR>
-
-" hateblo.vim
-NeoBundle 'moznion/hateblo.vim'
-NeoBundle 'mattn/webapi-vim'
 
 " hatena.vim
 NeoBundle 'motemen/hatena-vim'
@@ -83,14 +79,9 @@ let g:hatena_upload_on_write_bang = 1
 let g:hatena_no_default_keymappings = 1
 let g:hatena_entry_file = '~/Dropbox/me/docs/tools/hatena.txt'
 
-" 日時入力のショートカット
-inoremap <expr> ,df strftime('%Y/%m/%d %H:%M')
-inoremap <expr> ,ds strftime('%Y/%m/%d')
-inoremap <expr> ,dd strftime('%H:%M')
-
-" vimrc, gvimrcへのショートカット
-nnoremap <silent> <Space>. :<C-u>edit $MYVIMRC<Enter>
-nnoremap <silent> <Space>, :<C-u>edit $MYGVIMRC<Enter>
+" hateblo.vim
+NeoBundle 'moznion/hateblo.vim'
+NeoBundle 'mattn/webapi-vim'
 
 " 行表示
 set number
@@ -109,16 +100,6 @@ set cmdheight=2
 " バックアップファイル作らない
 set nobackup
 
-" set nowrapショートカット
-nnoremap <Space><C-w> :set nowrap<CR>
-nnoremap <Space><C-q> :set wrap<CR>
-
-" ハイライトを消すショートカット
-nnoremap <C-h> :nohl<CR>
-
-" 改行時に前の行のインデントを継続
-set autoindent
-
 " カーソルキーおよびh,lキーで行末／行頭から上下行への移動可能
 set whichwrap=b,s,[,],<,>,h,l
 
@@ -127,9 +108,6 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-
-" yy で y$ の代わりに
-nnoremap Y y$
 
 " 挿入モードでEmacs的移動
 noremap! <C-a> <Home>
@@ -148,18 +126,7 @@ inoremap "" ""<LEFT>
 inoremap '' ''<LEFT>
 inoremap <> <><LEFT>
 
-" ファイル形式によってタブのルールを個別設定
-if has("autocmd")
-  filetype on
-  autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
-  autocmd FileType javascript setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType php setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType perl setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType html setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
-endif
-
-" undo履歴を ~/.vimundo ディレクトリに保存して次回起動時に復元(Vim 7.3 以降)
+" undo履歴を ~/.vimundo ディレクトリに保存して次回起動時に復元
 set undodir=~/.vimundo undofile
 
 " Searching
@@ -176,12 +143,39 @@ set clipboard=unnamed
 " 対応括弧の表示秒数を3秒にする
 set matchtime=3
 
+" ファイル形式によってタブのルールを個別設定
+if has("autocmd")
+  filetype on
+  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType javascript setlocal ts=4 sts=4 sw=4 et
+  autocmd FileType php setlocal ts=4 sts=4 sw=4 et
+  autocmd FileType perl setlocal ts=4 sts=4 sw=4 et
+  autocmd FileType html setlocal ts=4 sts=4 sw=4 et
+endif
+
+" 改行時に前の行のインデントを継続
+set autoindent
+
 " Perl開始時のおまじないショートカット
 inoremap ,ff #!/usr/bin/env perl<CR>use strict;<CR>use warnings;
 
-"\を打ちやすく
-inoremap <C-@> \
+" 日時入力のショートカット
+inoremap <expr> ,df strftime('%Y/%m/%d %H:%M')
+inoremap <expr> ,ds strftime('%Y/%m/%d')
+inoremap <expr> ,dd strftime('%H:%M')
 
-" インデントで折りたたみ
-":set foldmethod=indent
+" vimrc, gvimrcへのショートカット
+nnoremap <silent> <Space>. :<C-u>edit $MYVIMRC<Enter>
+nnoremap <silent> <Space>, :<C-u>edit $MYGVIMRC<Enter>
+
+" ハイライトを消すショートカット
+nnoremap <C-h> :nohl<CR>
+
+" yy で y$ の代わりに
+nnoremap Y y$
+
+" set nowrapショートカット
+nnoremap <Space><C-w> :set nowrap<CR>
+nnoremap <Space><C-q> :set wrap<CR>
 
