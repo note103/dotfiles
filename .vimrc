@@ -54,6 +54,9 @@ nnoremap <C-k> :QuickRun<C-m>
 "open-browser.vim設定
 NeoBundle 'tyru/open-browser.vim'
 nmap <C-l> <Plug>(openbrowser-open)
+let g:quickrun_config['html'] = {
+      \   'outputter': 'browser'
+      \ }
 
 " Quickrun_Markdown設定
 NeoBundle 'hallison/vim-markdown'
@@ -72,10 +75,18 @@ nnoremap <silent> <C-p> :PrevimOpen<CR>
 NeoBundle 'moznion/hateblo.vim'
 NeoBundle 'mattn/webapi-vim'
 
+" hatena.vim
+NeoBundle 'motemen/hatena-vim'
+let g:hatena_user='note103'
+let g:hatena_upload_on_write = 0
+let g:hatena_upload_on_write_bang = 1
+let g:hatena_no_default_keymappings = 1
+let g:hatena_entry_file = '~/Dropbox/me/docs/tools/hatena.txt'
+
 " 日時入力のショートカット
-inoremap <expr> ,df strftime('%Y/%m/%d<Tab>%H:%M:%S')
+inoremap <expr> ,df strftime('%Y/%m/%d %H:%M')
 inoremap <expr> ,ds strftime('%Y/%m/%d')
-inoremap <expr> ,dd strftime('%H:%M:%S')
+inoremap <expr> ,dd strftime('%H:%M')
 
 " vimrc, gvimrcへのショートカット
 nnoremap <silent> <Space>. :<C-u>edit $MYVIMRC<Enter>
@@ -98,6 +109,10 @@ set cmdheight=2
 " バックアップファイル作らない
 set nobackup
 
+" set nowrapショートカット
+nnoremap <Space><C-w> :set nowrap<CR>
+nnoremap <Space><C-q> :set wrap<CR>
+
 " ハイライトを消すショートカット
 nnoremap <C-h> :nohl<CR>
 
@@ -112,6 +127,9 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
+
+" yy で y$ の代わりに
+nnoremap Y y$
 
 " 挿入モードでEmacs的移動
 noremap! <C-a> <Home>
@@ -135,6 +153,7 @@ if has("autocmd")
   filetype on
   autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
   autocmd FileType javascript setlocal ts=4 sts=4 sw=4 et
+  autocmd FileType php setlocal ts=4 sts=4 sw=4 et
   autocmd FileType perl setlocal ts=4 sts=4 sw=4 et
   autocmd FileType html setlocal ts=4 sts=4 sw=4 et
   autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
