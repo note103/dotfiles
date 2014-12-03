@@ -1,3 +1,7 @@
+syntax enable
+filetype indent on
+filetype plugin indent on
+
 " neobundle
 set nocompatible
 
@@ -5,10 +9,16 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 call neobundle#rc(expand('~/.vim/bundle/'))
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'windows' : 'make -f make_mingw32.mak',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
 
-" originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
@@ -18,22 +28,13 @@ NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'VimClojure'
-
-filetype plugin indent on
-filetype indent on
-syntax on
-
-" tpope / vim-pathogen
 NeoBundle 'tpope/vim-pathogen'
 execute pathogen#infect()
-syntax on
-filetype plugin indent on
 
 " calendar.vim
 NeoBundle 'itchyny/calendar.vim'
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
-let g:calendar_frame = 'default'
 
 " Quickrun設定
 au BufNewFile,BufRead *.go set filetype=go
@@ -71,14 +72,6 @@ NeoBundle 'kannokanno/previm'
 " PrevimOpenプレビューのショートカット
 nnoremap <silent> <C-p> :PrevimOpen<CR>
 
-" hatena.vim
-NeoBundle 'motemen/hatena-vim'
-let g:hatena_user='note103'
-let g:hatena_upload_on_write = 0
-let g:hatena_upload_on_write_bang = 1
-let g:hatena_no_default_keymappings = 1
-let g:hatena_entry_file = '~/Dropbox/me/docs/tools/hatena.txt'
-
 " hateblo.vim
 NeoBundle 'moznion/hateblo.vim'
 NeoBundle 'mattn/webapi-vim'
@@ -88,7 +81,7 @@ set number
 
 " 右下に行・列の番号を表示する
 set ruler
-set wrap
+
 set showcmd
 
 " ステータス行の表示
@@ -97,8 +90,11 @@ set laststatus=2
 " メッセージ表示欄の行確保
 set cmdheight=2
 
-" バックアップファイル作らない
+" backupfileを作らない
 set nobackup
+
+" swapfileを作らない
+set noswapfile
 
 " カーソルキーおよびh,lキーで行末／行頭から上下行への移動可能
 set whichwrap=b,s,[,],<,>,h,l
@@ -116,6 +112,7 @@ noremap! <C-b> <Left>
 noremap! <C-e> <End>
 noremap! <C-d> <Del>
 noremap! <C-k> <C-o>D
+
 noremap! <C-j> <Esc>
 
 " 括弧入力時に1文字分左（括弧内）にカーソル移動
@@ -135,6 +132,7 @@ set smartcase "If searching condition includes both of capital and lower, distin
 set incsearch "Doing incremental search
 set wrapscan "Enable wrap search
 set hlsearch "Highlighting results of searching
+set showmatch
 
 " OSのクリップボードを使う
 set clipboard+=unnamed
@@ -154,15 +152,16 @@ if has("autocmd")
   autocmd FileType html setlocal ts=4 sts=4 sw=4 et
 endif
 
+" Perl開始時のおまじないショートカット
+inoremap ,ff #!/usr/bin/env perl<CR>use strict;<CR>use warnings;
+inoremap ,ee __END__
+
 " 改行時に前の行のインデントを継続
 set autoindent
 
-" Perl開始時のおまじないショートカット
-inoremap ,ff #!/usr/bin/env perl<CR>use strict;<CR>use warnings;
-
 " 日時入力のショートカット
-inoremap <expr> ,df strftime('%Y/%m/%d %H:%M')
-inoremap <expr> ,ds strftime('%Y/%m/%d')
+inoremap <expr> ,df strftime('%Y-%m-%d %H:%M')
+inoremap <expr> ,ds strftime('%Y-%m-%d')
 inoremap <expr> ,dd strftime('%H:%M')
 
 " vimrc, gvimrcへのショートカット
@@ -175,7 +174,18 @@ nnoremap <C-h> :nohl<CR>
 " yy で y$ の代わりに
 nnoremap Y y$
 
-" set nowrapショートカット
+" wrap初期設定
+set wrap
+
+" wrapショートカット
 nnoremap <Space><C-w> :set nowrap<CR>
 nnoremap <Space><C-q> :set wrap<CR>
 
+nnoremap <Space>h  ^
+nnoremap <Space>l  $
+
+nnoremap <Space>o  :<C-u>for i in range(v:count1) \| call append(line('.'), '') \| endfor<CR>
+nnoremap <Space>O  :<C-u>for i in range(v:count1) \| call append(line('.')-1, '') \| endfor<CR>
+
+" Calendar.vim ショートカット
+nnoremap <Space>c  :Calendar -split=horizontal<CR>
