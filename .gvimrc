@@ -1,3 +1,29 @@
+" フォント設定
+set guifont=Ricty-Regular:h15
+
+" ウィンドウ設定
+set lines=90 columns=80
+set transparency=0
+
+" スクロールバーを消す
+set guioptions-=L
+
+" ビープ音消去
+set vb t_vb=
+
+" 自動折り返し不可
+set formatoptions=q
+set textwidth=0
+set tw=0
+
+" 画面最後の行をできる限り表示
+set display+=lastline
+
+" カーソル行の背景色を変える
+set cursorline
+augroup cch
+  autocmd! cch
+  autocmd WinLeave * set nocursorline
   autocmd WinEnter,BufRead * set cursorline
 augroup END
 :hi clear CursorLine
@@ -36,3 +62,4 @@ augroup HighlightingNoisySpaces
   au BufNewFile,BufRead * call matchadd('TrailingTabs', '\t\{-1,}$')
 augroup END
 "}}}
+
