@@ -31,12 +31,14 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle "vim-perl/vim-perl"
 
-" calendar.vim
-NeoBundle 'itchyny/calendar.vim'
-let g:calendar_google_calendar = 1
-let g:calendar_google_task = 1
+"Open-browser
+NeoBundle 'tyru/open-browser.vim'
+nmap <C-l> <Plug>(openbrowser-open)
+let g:quickrun_config['html'] = {
+      \   'outputter': 'browser'
+      \ }
 
-" Quickrun
+" Quickrun.vim
 au BufNewFile,BufRead *.go set filetype=go
 au BufNewFile,BufRead *.pl set filetype=perl
 au BufNewFile,BufRead *.js set filetype=javascript
@@ -50,15 +52,7 @@ let g:quickrun_config={'_': {'split': ''}}
 set splitbelow
 "let g:quickrun_config={'_': {'split': 'vertical'}}
 "set splitright
-
 nnoremap <C-k> :QuickRun<C-m>
-
-"open-browser
-NeoBundle 'tyru/open-browser.vim'
-nmap <C-l> <Plug>(openbrowser-open)
-let g:quickrun_config['html'] = {
-      \   'outputter': 'browser'
-      \ }
 
 " Quickrun_Markdown
 NeoBundle 'hallison/vim-markdown'
@@ -70,7 +64,13 @@ let g:quickrun_config['markdown'] = {
 NeoBundle 'kannokanno/previm'
 nnoremap <silent> <C-p> :PrevimOpen<CR>
 
-" hateblo.vim
+" Calendar.vim
+NeoBundle 'itchyny/calendar.vim'
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
+nnoremap <Space>c  :Calendar -split=horizontal<CR>
+
+" Hateblo.vim
 NeoBundle 'moznion/hateblo.vim'
 NeoBundle 'mattn/webapi-vim'
 
@@ -135,6 +135,7 @@ inoremap <expr> ,df strftime('%Y-%m-%d %H:%M')
 inoremap <expr> ,ds strftime('%Y-%m-%d')
 inoremap <expr> ,dd strftime('%H:%M')
 
+" Tabspace
 if has("autocmd")
   filetype on
   autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
@@ -148,15 +149,7 @@ endif
 set expandtab
 set ts=4 sw=4 sts=0
 
-augroup filetypedetect
-    au BufNewFile,BufRead *.psgi    setf perl
-    au BufNewFile,BufRead *.t       setf perl
-    au BufNewFile,BufRead *.tt      setf tt2html
-    au BufNewFile,BufRead *.tt2     setf tt2html
-    au BufNewFile,BufRead cpanfile  setf perl
-augroup END
-
-" snippets
+" Snippets
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 nnoremap <Space><Space>ps :sp $HOME/.vim/bundle/vim-snippets/snippets/perl.snip<CR>
@@ -165,12 +158,13 @@ smap <C-q>     <Plug>(neosnippet_expand_or_jump)
 imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
+" Omnifunc
 autocmd FileType *
 \   if &l:omnifunc == ''
 \ |   setlocal omnifunc=syntaxcomplete#Complete
 \ | endif
 
-" neocomplete
+" Neocomplete
 let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_ignore_case = 1
@@ -191,10 +185,15 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Calendar.vim
-nnoremap <Space>c  :Calendar -split=horizontal<CR>
-
 " Perl
+augroup filetypedetect
+    au BufNewFile,BufRead *.psgi    setf perl
+    au BufNewFile,BufRead *.t       setf perl
+    au BufNewFile,BufRead *.tt      setf tt2html
+    au BufNewFile,BufRead *.tt2     setf tt2html
+    au BufNewFile,BufRead cpanfile  setf perl
+augroup END
+
 " http://perl-users.jp/articles/advent-calendar/2012/casual/13
 autocmd BufNewFile *.pl 0r $HOME/.vim/template/perl-script.txt
 autocmd BufNewFile *.t  0r $HOME/.vim/template/perl-test.txt
