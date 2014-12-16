@@ -31,13 +31,6 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'hotchpotch/perldoc-vim'
 NeoBundle "vim-perl/vim-perl"
 
-"Open-browser
-NeoBundle 'tyru/open-browser.vim'
-nmap <C-l> <Plug>(openbrowser-open)
-let g:quickrun_config['html'] = {
-      \   'outputter': 'browser'
-      \ }
-
 " Quickrun.vim
 au BufNewFile,BufRead *.go set filetype=go
 au BufNewFile,BufRead *.pl set filetype=perl
@@ -63,6 +56,13 @@ let g:quickrun_config['markdown'] = {
 " PrevimOpen_Markdown
 NeoBundle 'kannokanno/previm'
 nnoremap <silent> <C-p> :PrevimOpen<CR>
+
+"Open-browser
+NeoBundle 'tyru/open-browser.vim'
+nmap <C-l> <Plug>(openbrowser-open)
+let g:quickrun_config['html'] = {
+      \   'outputter': 'browser'
+      \ }
 
 " Calendar.vim
 NeoBundle 'itchyny/calendar.vim'
