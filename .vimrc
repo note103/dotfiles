@@ -1,9 +1,8 @@
 scriptencoding utf-8
 
 filetype on
-filetype indent on
 filetype plugin on
-filetype plugin indent on
+filetype indent on
 syntax on
 
 set nocompatible
@@ -12,41 +11,38 @@ if has('vim_starting')
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
+NeoBundle 'Shougo/vimproc.vim', {
+\ 'build' : {
+\     'windows' : 'tools\\update-dll-mingw',
+\     'cygwin' : 'make -f make_cygwin.mak',
+\     'mac' : 'make -f make_mac.mak',
+\     'linux' : 'make',
+\     'unix' : 'gmake',
+\    },
+\ }
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'honza/vim-snippets'
 NeoBundle 'tpope/vim-pathogen'
 NeoBundle 'thinca/vim-ref'
-NeoBundle 'hotchpotch/perldoc-vim'
-NeoBundle "vim-perl/vim-perl"
 
 " Quickrun.vim
-au BufNewFile,BufRead *.go set filetype=go
-au BufNewFile,BufRead *.pl set filetype=perl
-au BufNewFile,BufRead *.js set filetype=javascript
-au BufNewFile,BufRead *.rb set filetype=ruby
-au BufNewFile,BufRead *.py set filetype=python
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle "osyo-manga/unite-quickfix"
 NeoBundle "osyo-manga/shabadou.vim"
-let g:quickrun_config = {}
-let g:quickrun_config={'_': {'split': ''}}
+
+" Quickrun window setting
+let g:quickrun_config = {'_': {'split': ''}}
 set splitbelow
-"let g:quickrun_config={'_': {'split': 'vertical'}}
+"let g:quickrun_config = {'_': {'split': 'vertical'}}
 "set splitright
+
 nnoremap <C-k> :QuickRun<C-m>
 
+" Markdown
 " Quickrun_Markdown
 NeoBundle 'hallison/vim-markdown'
 let g:quickrun_config['markdown'] = {
@@ -69,31 +65,33 @@ NeoBundle 'itchyny/calendar.vim'
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 nnoremap <Space>c  :Calendar -split=horizontal<CR>
+nnoremap <Space><Space>c  :Calendar<CR>
 
 " Hateblo.vim
 NeoBundle 'moznion/hateblo.vim'
 NeoBundle 'mattn/webapi-vim'
 
 set autoindent
+set backup
+set backupdir=~/.vim/tmp
 set cmdheight=2
+set directory=~/.vim/tmp
 set foldmethod=marker
 set hlsearch
 set ignorecase
 set incsearch
 set laststatus=2
 set matchtime=3
-set nobackup
-set noswapfile
 set number
 set ruler
 set showcmd
 set showmatch
 set smartcase
+set swapfile
 set undodir=~/.vimundo undofile
 set whichwrap=b,s,[,],<,>,h,l
 set wrap
 set wrapscan
-set clipboard+=unnamed
 set clipboard=unnamed
 
 nnoremap j gj
@@ -101,13 +99,6 @@ nnoremap k gk
 nnoremap gj j
 nnoremap gk k
 nnoremap Y y$
-noremap! <C-a> <Home>
-noremap! <C-f> <Right>
-noremap! <C-b> <Left>
-noremap! <C-e> <End>
-noremap! <C-d> <Del>
-noremap! <C-k> <C-o>D
-noremap! <C-j> <Esc>
 nnoremap <C-h> :nohl<CR>
 nnoremap <Space><C-w> :set nowrap<CR>
 nnoremap <Space><C-q> :set wrap<CR>
@@ -115,13 +106,27 @@ nnoremap <Space>h  ^
 nnoremap <Space>l  $
 nnoremap <Space>o  :<C-u>for i in range(v:count1) \| call append(line('.'), '') \| endfor<CR>
 nnoremap <Space>O  :<C-u>for i in range(v:count1) \| call append(line('.')-1, '') \| endfor<CR>
-nnoremap <silent> <Space><Space>l :NeoCompleteLock<Enter>
-nnoremap <silent> <Space><Space>u :NeoCompleteUnlock<Enter>
-nnoremap <silent> <Space>. :sp $MYVIMRC<Enter>
-nnoremap <silent> <Space>, :sp $MYGVIMRC<Enter>
-nnoremap <silent> <Space><Space>, :<C-u>edit $MYGVIMRC<Enter>
-nnoremap <silent> <Space><Space>. :<C-u>edit $MYVIMRC<Enter>
+nnoremap <Space>. :sp $MYVIMRC<Enter>
+nnoremap <Space>, :sp $MYGVIMRC<Enter>
+nnoremap <Space><Space>, :edit $MYGVIMRC<CR>
+nnoremap <Space><Space>. :edit $MYVIMRC<CR>
+nnoremap <Space>sv :source $HOME/.vimrc<CR>
+nnoremap <Space><Space>n  :%s///gn
+nnoremap <Space><Space>s  :%s///gc
+nnoremap <Space>vs  :VimShell<CR>
+nnoremap <Space>vb :sp $HOME/.vimshrc<CR>
+nnoremap <Space><Space>vb :edit $HOME/.vimshrc<CR>
+nnoremap <Space><Space>l  :%s/\s\+$//gc<CR>
 
+noremap! <C-a> <Home>
+noremap! <C-f> <Right>
+noremap! <C-b> <Left>
+noremap! <C-e> <End>
+noremap! <C-d> <Del>
+noremap! <C-h> <Backspace>
+noremap! <C-k> <C-o>D
+inoremap ,,e <Esc>:NeoCompleteEnable<Enter>a
+inoremap ,,l <Esc>:NeoCompleteLock<Enter>a
 inoremap {} {}<LEFT>
 inoremap [] []<LEFT>
 inoremap () ()<LEFT>
@@ -134,12 +139,17 @@ inoremap <Bar><Bar> <Bar><Bar><LEFT>
 inoremap <expr> ,df strftime('%Y-%m-%d %H:%M')
 inoremap <expr> ,ds strftime('%Y-%m-%d')
 inoremap <expr> ,dd strftime('%H:%M')
+inoremap ,ee __END__
+inoremap ,dt __DATA__
+map ,pt :%! perltidy -se<CR>
+map ,ptv :'<,'>! perltidy -se<CR>
 
 " Tabspace
 if has("autocmd")
   filetype on
-  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
   autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType sh setlocal ts=4 sts=4 sw=4 et
   autocmd FileType javascript setlocal ts=4 sts=4 sw=4 et
   autocmd FileType php setlocal ts=4 sts=4 sw=4 et
   autocmd FileType perl setlocal ts=4 sts=4 sw=4 et
@@ -150,13 +160,31 @@ set expandtab
 set ts=4 sw=4 sts=0
 
 " Snippets
-let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-nnoremap <Space><Space>ps :sp $HOME/.vim/bundle/vim-snippets/snippets/perl.snip<CR>
-imap <C-q>     <Plug>(neosnippet_expand_or_jump)
-smap <C-q>     <Plug>(neosnippet_expand_or_jump)
-imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" Plugin key-mappings.
+imap <C-j>     <Plug>(neosnippet_expand_or_jump)
+smap <C-j>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-j>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+nnoremap <Space><Space>pl :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/perl.snip<CR>
+nnoremap <Space><Space>rb :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/ruby.snip<CR>
+nnoremap <Space><Space>sql :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/sql.snip<CR>
+nnoremap <Space><Space>sh :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/sh.snip<CR>
+nnoremap <Space><Space>md :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/markdown.snip<CR>
+nnoremap <Space><Space>h :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/html.snip<CR>
+nnoremap <Space><Space>php :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/php.snip<CR>
 
 " Omnifunc
 autocmd FileType *
@@ -166,38 +194,45 @@ autocmd FileType *
 
 " Neocomplete
 let g:acp_enableAtStartup = 0
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_ignore_case = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" Define keyword.
+" Define keyword
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Enable omni completion.
+" Enable omni completion
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Perl
+" filetype setting
 augroup filetypedetect
-    au BufNewFile,BufRead *.psgi    setf perl
-    au BufNewFile,BufRead *.t       setf perl
-    au BufNewFile,BufRead *.tt      setf tt2html
-    au BufNewFile,BufRead *.tt2     setf tt2html
-    au BufNewFile,BufRead cpanfile  setf perl
+    au BufNewFile,BufRead *.sh set filetype=sh
+    au BufNewFile,BufRead *.rb set filetype=ruby
+    au BufNewFile,BufRead *.js set filetype=javascript
+    au BufNewFile,BufRead *.py set filetype=python
+    au BufNewFile,BufRead *.go set filetype=go
+    au BufNewFile,BufRead *.pl set filetype=perl
+    au BufNewFile,BufRead *.psgi set filetype=perl
+    au BufNewFile,BufRead *.t set filetype=perl
+    au BufNewFile,BufRead cpanfile set filetype=perl
+    au BufNewFile,BufRead *.tt set filetype=tt2html
+    au BufNewFile,BufRead *.tt2 set filetype=tt2html
 augroup END
 
-" http://perl-users.jp/articles/advent-calendar/2012/casual/13
+" template setting
 autocmd BufNewFile *.pl 0r $HOME/.vim/template/perl-script.txt
-autocmd BufNewFile *.t  0r $HOME/.vim/template/perl-test.txt
-map ,pt <Esc>:%! perltidy -se<CR>
-map ,ptv <Esc>:'<,'>! perltidy -se<CR>
+autocmd BufNewFile *.pm 0r $HOME/.vim/template/perl-script.txt
+autocmd BufNewFile *.t 0r $HOME/.vim/template/perl-test.txt
+autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
+autocmd BufNewFile *.html 0r $HOME/.vim/template/html.txt
 
 call neobundle#end()
