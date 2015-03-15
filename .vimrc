@@ -1,15 +1,15 @@
 scriptencoding utf-8
 
-filetype on
-filetype plugin on
-filetype indent on
-syntax on
-
 set nocompatible
+
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
+
+filetype plugin on
+"filetype plugin indent on
+syntax on
 
 NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
@@ -20,14 +20,17 @@ NeoBundle 'Shougo/vimproc.vim', {
 \     'unix' : 'gmake',
 \    },
 \ }
+
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'tpope/vim-pathogen'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-pathogen'
 NeoBundle 'thinca/vim-ref'
+NeoBundle 'vim-perl/vim-perl'
+NeoBundle 'scrooloose/syntastic'
 
 " Quickrun.vim
 NeoBundle 'thinca/vim-quickrun'
@@ -117,6 +120,7 @@ nnoremap <Space>vs  :VimShell<CR>
 nnoremap <Space>vb :sp $HOME/.vimshrc<CR>
 nnoremap <Space><Space>vb :edit $HOME/.vimshrc<CR>
 nnoremap <Space><Space>l  :%s/\s\+$//gc<CR>
+nnoremap <Space><Space>a  :%s/^\(.\+\)$/\1  /gc<CR>
 
 noremap! <C-a> <Home>
 noremap! <C-f> <Right>
@@ -145,19 +149,13 @@ map ,pt :%! perltidy -se<CR>
 map ,ptv :'<,'>! perltidy -se<CR>
 
 " Tabspace
-if has("autocmd")
-  filetype on
-  autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
-  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
-  autocmd FileType sh setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType javascript setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType php setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType perl setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType html setlocal ts=4 sts=4 sw=4 et
-  autocmd FileType json setlocal ts=4 sts=4 sw=4 et
-endif
 set expandtab
 set ts=4 sw=4 sts=0
+if has("autocmd")
+  autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType yml setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
+endif
 
 " Snippets
 " Plugin key-mappings.
@@ -180,10 +178,8 @@ endif
 
 nnoremap <Space><Space>pl :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/perl.snip<CR>
 nnoremap <Space><Space>rb :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/ruby.snip<CR>
-nnoremap <Space><Space>sql :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/sql.snip<CR>
 nnoremap <Space><Space>sh :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/sh.snip<CR>
 nnoremap <Space><Space>md :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/markdown.snip<CR>
-nnoremap <Space><Space>h :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/html.snip<CR>
 nnoremap <Space><Space>php :sp $HOME/.vim/bundle/neosnippet-snippets/neosnippets/php.snip<CR>
 
 " Omnifunc
@@ -215,12 +211,6 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " filetype setting
 augroup filetypedetect
-    au BufNewFile,BufRead *.sh set filetype=sh
-    au BufNewFile,BufRead *.rb set filetype=ruby
-    au BufNewFile,BufRead *.js set filetype=javascript
-    au BufNewFile,BufRead *.py set filetype=python
-    au BufNewFile,BufRead *.go set filetype=go
-    au BufNewFile,BufRead *.pl set filetype=perl
     au BufNewFile,BufRead *.psgi set filetype=perl
     au BufNewFile,BufRead *.t set filetype=perl
     au BufNewFile,BufRead cpanfile set filetype=perl
@@ -231,8 +221,35 @@ augroup END
 " template setting
 autocmd BufNewFile *.pl 0r $HOME/.vim/template/perl-script.txt
 autocmd BufNewFile *.pm 0r $HOME/.vim/template/perl-script.txt
+nnoremap <Space><Space><Space>pl :sp $HOME/.vim/template/perl-script.txt<CR>
 autocmd BufNewFile *.t 0r $HOME/.vim/template/perl-test.txt
+nnoremap <Space><Space><Space>pt :sp $HOME/.vim/template/perl-test.txt<CR>
 autocmd BufNewFile *.sh 0r $HOME/.vim/template/sh.txt
+nnoremap <Space><Space><Space>sh :sp $HOME/.vim/template/sh.txt<CR>
 autocmd BufNewFile *.html 0r $HOME/.vim/template/html.txt
+nnoremap <Space><Space><Space>h :sp $HOME/.vim/template/html.txt<CR>
+
+" syntastic
+" https://github.com/scrooloose/syntastic#3-recommended-settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" https://github.com/scrooloose/syntastic/issues/987
+" http://d.hatena.ne.jp/oppara/20140515/p1
+let g:syntastic_enable_perl_checker = 1
+let g:syntastic_perl_checkers = ['perl', 'podchecker']
+let g:syntastic_debug = 0
+
+" http://d.hatena.ne.jp/heavenshell/20120106/1325866974
+let g:syntastic_mode_map = { 'mode': 'active',
+  \ 'active_filetypes': ['perl'],
+  \ 'passive_filetypes': ['php', 'go'] }
 
 call neobundle#end()
+
+
