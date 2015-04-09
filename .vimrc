@@ -7,8 +7,8 @@ if has('vim_starting')
 endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 
-filetype plugin on
-"filetype plugin indent on
+" filetype plugin on
+filetype plugin indent on
 syntax on
 
 NeoBundle 'Shougo/vimproc.vim', {
@@ -23,7 +23,6 @@ NeoBundle 'Shougo/vimproc.vim', {
 
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'tpope/vim-pathogen'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/neosnippet'
@@ -31,6 +30,7 @@ NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'vim-perl/vim-perl'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'elzr/vim-json'
 
 " Quickrun.vim
 NeoBundle 'thinca/vim-quickrun'
@@ -114,12 +114,13 @@ nnoremap <Space>, :sp $MYGVIMRC<Enter>
 nnoremap <Space><Space>, :edit $MYGVIMRC<CR>
 nnoremap <Space><Space>. :edit $MYVIMRC<CR>
 nnoremap <Space>sv :source $HOME/.vimrc<CR>
-nnoremap <Space><Space>n  :%s///gn
-nnoremap <Space><Space>s  :%s///gc
 nnoremap <Space>vs  :VimShell<CR>
 nnoremap <Space>vb :sp $HOME/.vimshrc<CR>
 nnoremap <Space><Space>vb :edit $HOME/.vimshrc<CR>
+nnoremap <Space><Space>n  :%s///gn
+nnoremap <Space><Space>c  :%s///gc
 nnoremap <Space><Space>l  :%s/\s\+$//gc<CR>
+nnoremap <Space><Space><Space>l  :%s/　\+$//gc<CR>
 nnoremap <Space><Space>a  :%s/^\(.\+\)$/\1  /gc<CR>
 
 noremap! <C-a> <Home>
@@ -131,6 +132,8 @@ noremap! <C-h> <Backspace>
 noremap! <C-k> <C-o>D
 inoremap ,,e <Esc>:NeoCompleteEnable<Enter>a
 inoremap ,,l <Esc>:NeoCompleteLock<Enter>a
+nnoremap ,,e <Esc>:NeoCompleteEnable<Enter>
+nnoremap ,,l <Esc>:NeoCompleteLock<Enter>
 inoremap {} {}<LEFT>
 inoremap [] []<LEFT>
 inoremap () ()<LEFT>
@@ -145,8 +148,8 @@ inoremap <expr> ,ds strftime('%Y-%m-%d')
 inoremap <expr> ,dd strftime('%H:%M')
 inoremap ,ee __END__
 inoremap ,dt __DATA__
-map ,pt :%! perltidy -se<CR>
-map ,ptv :'<,'>! perltidy -se<CR>
+noremap ,pt :%! perltidy -se<CR>
+noremap ,ptv :'<,'>! perltidy -se<CR>
 
 " Tabspace
 set expandtab
@@ -155,6 +158,7 @@ if has("autocmd")
   autocmd FileType ruby setlocal ts=2 sts=2 sw=2 et
   autocmd FileType yml setlocal ts=2 sts=2 sw=2 et
   autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
+  autocmd FileType text setlocal ts=2 sts=2 sw=2 et
 endif
 
 " Snippets
@@ -243,13 +247,5 @@ let g:syntastic_check_on_wq = 0
 " http://d.hatena.ne.jp/oppara/20140515/p1
 let g:syntastic_enable_perl_checker = 1
 let g:syntastic_perl_checkers = ['perl', 'podchecker']
-let g:syntastic_debug = 0
-
-" http://d.hatena.ne.jp/heavenshell/20120106/1325866974
-let g:syntastic_mode_map = { 'mode': 'active',
-  \ 'active_filetypes': ['perl'],
-  \ 'passive_filetypes': ['php', 'go'] }
 
 call neobundle#end()
-
-

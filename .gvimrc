@@ -32,7 +32,7 @@ augroup END
 " Setting of color scheme {{{
 if !has('win32unix')
   set t_Co=256
-  set background=light
+  set background=dark
   colorscheme solarized
 endif
 "}}}
